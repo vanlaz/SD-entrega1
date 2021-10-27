@@ -17,7 +17,9 @@ def consulta(idUser):
     origem = input("Aonde está? ").strip()
     data = input("Quando deseja ir? ").strip()
     if origem and destino and data:
-        respConsulta = servidor.consulta(origem, destino, data, 1)
+        ## Sugestão: usar uma constante, que pode ser definida em servidor.py, ao invés do número 1.
+        ## Exemplo é usar MOTORISTA = 1 e na chamada abaixo simplesmente usar servidor.consulta(origem, destino, data, MOTORISTA)  
+        respConsulta = servidor.consulta(origem, destino, data, 1)   
         idCorrida = interesse(data, origem, idUser, destino)
         if (not (respConsulta)):
             adicionarALista = input(
@@ -30,6 +32,8 @@ def consulta(idUser):
             print(respConsulta)
 
 # Registro de interesse em eventos (1,1)
+## Sugestão: como esta função não adiciona comportamente adicional, 
+## removê-la e usar diretamente o "servidor.interesseEmPassageiro" no lugar
 def interesse(data, origem, idUser, destino):
     print(data)
     id = servidor.interesseEmPassageiro(idUser, origem, destino, data, signature)
@@ -40,9 +44,12 @@ def cadastro ():
     print("Novo por aqui? Cadastre-se\n")
     nome = input("Qual seu nome? ").strip().encode()
     telefone = input("Certo! \n Qual seu telefone?").strip().encode()
-    encryptor = PKCS1_OAEP.new(key)
-    nome = encryptor.encrypt(nome)
-    telefone = encryptor.encrypt(telefone)
+    ## Sugestão: incluir mais um campo, onde o interessado informe sua chave pública.
+    ## Isto pode ser armazenado junto do nome e telefone e é usado depois para 
+    ## confrontar solicitações posteriores (como no exercício de 0.25).
+    # encryptor = PKCS1_OAEP.new(key)
+    # nome = encryptor.encrypt(nome)
+    # telefone = encryptor.encrypt(telefone)
     if nome and telefone:
         idUser = servidor.cadastroUsuario(nome, telefone, 1) #O ultimo campo - se 1 motorista, se 0 passageiro
     return idUser
