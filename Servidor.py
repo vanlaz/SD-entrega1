@@ -34,6 +34,7 @@ class Servidor(object):
         return result
 
 #Clientes devem informar a origem, destino e a data da viagem desejada. (0,3)
+## Sugestão: incluir a chave pública da pessoa que está a se cadastrar, para uso posterior.
     def cadastroUsuario(self, nome, telefone, tpUser):
         if (tpUser == 1):
             idUser = (len(self.Motorista) + 1)          #define a idUser de motorista como o proximo numero disponivel e adiciona no array de motoristas
@@ -45,6 +46,18 @@ class Servidor(object):
             return idUser
 
 #Clientes devem informar seu nome, telefone e chave pública. (0,2)
+## Sugestão: receber uma assinatura digital, que pode ser um texto (challenge)
+## que será encriptado pela pessoa cliente usando sua própria chave privada,
+## e que podemos solicitar que nos seja informado codificado em base 64, 
+## para que possamos tratar com texto.
+## Fica assim:
+##  - pessoa se cadastra informado seus dados: ('seiti', '555-5555', 'VARIOSCHARSDAMINHACHAVEPUBLICA')
+##  - pessoa pega um texto qqer (pode ser seu próprio id, digamos '42') e a encripta usando sua chave privada;
+##    Depois a codifica usando base64, obtendo por exemplo '89163501bardt2e3n'
+##  - pessoa quer subscrever interesse: (1, 'São Paulo', 'Rio de Janeiro', '2021-12-25', '89163501bardt2e3n')
+##  - servidor recebe os dados, desencripta o '89163501bardt2e3n' usando a chave pública da própria pessoa 
+##    e consegue ler o texto original, que é 42. Bate com o id da própria pessoa, então ela tem a chave privada 
+##    e podemos assumir que é a própria pessoa solicitando interesse.
     def interesseEmCarona(self, idUser, origem, destino, data, qtdepassageiros):         #cadastra interesse do passageiro em carona
         id = datetime.now()         #cria id unica para cada carona e retira caracteres especiais
         id = str(id).replace(":", "")
@@ -56,6 +69,7 @@ class Servidor(object):
         self.procuraPorCarona.append([idCorrida, idUser, origem, destino, qtdepassageiros, data])
         return idCorrida
 
+## Sugestão: ver sugestão acima    
     def interesseEmPassageiro(self, idUser, origem, destino, data):          #cadastra interesse do motorista em oferecer carona
 
         id = datetime.now()         #cria id unica para cada viagem e retira caracteres especiais
