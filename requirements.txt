@@ -1,0 +1,14 @@
+cffi==1.15.0
+cryptography==3.3.2
+ipaddress==1.0.23
+numpy==1.21.4
+opt-einsum==3.3.0
+pycparser==2.21
+pyro-api==0.1.2
+pyro-ppl==1.7.0
+Pyro4==4.81
+serpent==1.40
+six==1.16.0
+torch==1.10.0
+tqdm==4.62.3
+typing_extensions==4.0.0
