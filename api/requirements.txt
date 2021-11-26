@@ -2,7 +2,6 @@ aniso8601==9.0.1
 APScheduler==3.8.1
 cffi==1.15.0
 click==8.0.3
-cryptography==3.3.2
 Deprecated==1.2.13
 Faker==9.8.2
 Flask==2.0.2
