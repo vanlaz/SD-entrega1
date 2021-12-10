@@ -72,7 +72,7 @@ class ConsultaViagens(Servidor):
             if viagens[2] == origem and viagens[3] == destino and viagens[4] == data:
                 usuaria_compativel = self.consulta_usuaria(viagens[1], tp_user)
                 lista_compativeis.append([usuaria_compativel, viagens])
-            return lista_compativeis
+        return lista_compativeis
 
 
 def checa_correspondencia_com_passageira():
@@ -82,12 +82,13 @@ def checa_correspondencia_com_passageira():
         if (Servidor.procura_por_passageiras[qtd_viagens][4] == i[4]
                 and Servidor.procura_por_passageiras[qtd_viagens][3] == i[3]
                 and Servidor.procura_por_passageiras[qtd_viagens][2] == i[2]):
-            for usuaria in Servidor.passageiras:
+            for usuaria in Servidor.motoristas:
                 if str(usuaria[0]) == Servidor.procura_por_passageiras[qtd_viagens][1]:
                     # nome e telefone
                     infos_passageira.append([usuaria[1], usuaria[2]])
                     print(infos_passageira)
-                server_side_event(infos_passageira, i[1] + '0')
+    if infos_passageira:
+        server_side_event(infos_passageira, i[1] + '0')
 
 
 class InteresseEmPassageira(Servidor):
@@ -95,7 +96,7 @@ class InteresseEmPassageira(Servidor):
         id_corrida = str(datetime.now()).replace(":", "").replace("-", "").replace(".", "").replace(" ", "")
         Servidor.procura_por_passageiras.append([id_corrida, id_user, origem, destino, data])
         checa_correspondencia_com_passageira()
-        return id_corrida
+        return Servidor.procura_por_passageiras
 
 
 def checa_correspondencia_com_motorista():
@@ -105,11 +106,12 @@ def checa_correspondencia_com_motorista():
         if (Servidor.procura_por_motoristas[qtd_viagens][4] == i[4]
                 and Servidor.procura_por_motoristas[qtd_viagens][3] == i[3]
                 and Servidor.procura_por_motoristas[qtd_viagens][2] == i[2]):
-            for usuaria in Servidor.motoristas:
+            for usuaria in Servidor.passageiras:
                 if str(usuaria[0]) == Servidor.procura_por_motoristas[qtd_viagens][1]:
                     # nome e telefone
                     infos_motorista.append([usuaria[1], usuaria[2]])
-                server_side_event(infos_motorista, i[1] + '1')
+    if infos_motorista:
+        server_side_event(infos_motorista, i[1] + '1')
 
 
 class InteresseEmMotorista(Servidor):
@@ -117,7 +119,7 @@ class InteresseEmMotorista(Servidor):
         id_corrida = str(datetime.now()).replace(":", "").replace("-", "").replace(".", "").replace(" ", "")
         Servidor.procura_por_motoristas.append([id_corrida, id_user, origem, destino, data])
         checa_correspondencia_com_motorista()
-        return id_corrida
+        return Servidor.procura_por_motoristas
 
 
 class RemoveInteresseEmPassageira(Servidor):
