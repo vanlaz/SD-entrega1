@@ -87,7 +87,9 @@ def checa_correspondencia_com_passageira():
                     # nome e telefone
                     infos_passageira.append([usuaria[1], usuaria[2]])
                     print(infos_passageira)
-                server_side_event(infos_passageira, i[1] + '0')
+
+    if infos_passageira:
+         server_side_event(infos_passageira, i[1] + '0')
 
 
 class InteresseEmPassageira(Servidor):
@@ -109,7 +111,9 @@ def checa_correspondencia_com_motorista():
                 if str(usuaria[0]) == Servidor.procura_por_motoristas[qtd_viagens][1]:
                     # nome e telefone
                     infos_motorista.append([usuaria[1], usuaria[2]])
-                server_side_event(infos_motorista, i[1] + '1')
+
+    if infos_motorista:
+        server_side_event(infos_motorista, i[1] + '1')
 
 
 class InteresseEmMotorista(Servidor):
